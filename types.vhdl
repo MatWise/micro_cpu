@@ -4,6 +4,11 @@ package types is
   constant N: positive := 16;
   subtype word is std_logic_vector(N-1 downto 0);
   type opc_type is (
+    -- ac:  implicit (accumulator)
+    -- i:   immediate
+    -- m:   memory
+    -- mi:  memory indirect
+    -- dmi: displaced memory indirect
     illegal,
     load_i, load_m,  load_mi,  load_dmi,
     or_i,   or_m,    or_mi,    or_dmi,
@@ -19,8 +24,8 @@ package types is
     ror_ac, ror_m,   ror_mi,   ror_dmi,
     asl_ac, asl_m,   asl_mi,   asl_dmi,
     asr_ac, asr_m,   asr_mi,   asr_dmi,
-    rcl_ac, rcl_m,   rcl_mi,   rcl_dmi,
-    rcr_ac, rcr_m,   rcr_mi,   rcr_dmi,
+    rcl_ac, rcl_m,   rcl_mi,   rcl_dmi, rcl_i, -- ask
+    rcr_ac, rcr_m,   rcr_mi,   rcr_dmi, rcr_i, -- ask
     not_ac, not_m,   not_mi,   not_dmi,
             neg_m,   neg_mi,   neg_dmi,
     clr_ac,
@@ -43,5 +48,30 @@ package types is
    
     type edsel_type is (
       reg_ac, reg_pc, memory_in);
+    
+    type condition_type is (
+      F,   -- False
+      T,   -- True
+      HI,  -- Higher
+      LS,  -- Lower or same
+      CC,  -- Carry clear
+      CS,  -- Carry set
+      NE,  -- Not equal
+      EQ,  -- Equal
+      VC,  -- Overflow clear
+      VS,  -- Overflow set
+      PL,  -- Plus
+      MI,  -- Minus
+      GE,  -- Greater or equal
+      LT,  -- Less than
+      GT,  -- Greater than
+      LE); -- Less or equal
  
+    type disassembled_ir_type is record
+        opc: opc_type;
+        xsel: xsel_type;
+        cinsel: cinsel_type;
+        alumode: alumode_type;
+        condition: condition_type;
+      end record disassembled_ir_type;
 end package types;
