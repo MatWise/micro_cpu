@@ -87,22 +87,32 @@ begin
   sr_int <= (n, z, v, c);
 end process logic;
 
-reg: process(clk) is
-  begin
-    if clk = '1' and clk'event then
-      ac <= ac_int;
-      sr <= sr_int;
-    end if;
-  end process reg;
+  reg: process(clk, res_n) is
+    begin
+      if res_n = '0' then
+        ac <= (others => '0');
+        sr <= (others => '0');
+      elsif clk = '1' and clk'event then
+        ac <= ac_int;
+        sr <= sr_int;
+      end if;
+    end process reg;
 
-ac_output: process(ac, edsel) is
-begin
-  if edsel = reg_ac then
-    ed <= ac;
-  else
-    ed <= (others => 'Z');
-  end if;
-end process ac_output;
+  ac_output: process(ac, edsel) is
+  begin
+    if edsel = reg_ac then
+      ed <= ac;
+    else
+      ed <= (others => 'Z');
+    end if;
+  end process ac_output;
+
+  lookahead: process(next_edsel, acena) is
+  begin
+    if next_edsel = reg_ac then
+      
+    end if;
+  end process lookahead;
   
 end architecture behav;
 

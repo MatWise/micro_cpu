@@ -3,7 +3,7 @@ library work; use work.types.all;
 
 entity memory_reg is
   port(
-    clk: in std_logic;
+    clk, res_n: in std_logic;
     ed: in word;
     aasel: in std_logic;
     easel: in std_logic;
@@ -12,5 +12,8 @@ entity memory_reg is
     aaena: in std_logic;
     ix: out word;
     ir: out word;
-    ea: out word);
+    ea: out word;
+    -- lookahead
+    next_easel: in std_logic;
+    next_ea: out word);
 end entity memory_reg;

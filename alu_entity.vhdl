@@ -3,7 +3,7 @@ library work; use work.types.all;
 
 entity alu is
   port(
-    clk: in std_logic;
+    clk, res_n: in std_logic;
     xsel: in xsel_type;
     cinsel: in cinsel_type;
     alumode: in alumode_type;
@@ -12,5 +12,8 @@ entity alu is
     edsel: in edsel_type;
     ix: in word;
     ed: out word;
-    sr: out std_logic_vector(3 downto 0));
+    sr: out std_logic_vector(3 downto 0);
+    -- lookahead
+    next_edsel: in edsel_type;
+    next_ed: out word);
 end entity alu;

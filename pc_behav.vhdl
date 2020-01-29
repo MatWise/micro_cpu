@@ -19,9 +19,11 @@ begin
     end if;
   end process logic;
   
-  reg: process(clk) is
+  reg: process(clk, res_n) is
   begin
-    if clk = '1' and clk'event then
+    if res_n = '0' then
+      pc <= (others => '0');
+    elsif clk = '1' and clk'event then
       if pcena = '1' then
         pc <= pc_int;
       end if;

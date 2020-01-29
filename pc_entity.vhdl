@@ -3,7 +3,7 @@ library work; use work.types.all;
 
 entity pc is
   port(
-    clk: in std_logic;
+    clk, res_n: in std_logic;
     edsel: in edsel_type;
     easel: in std_logic;
     pcsel: in std_logic;
