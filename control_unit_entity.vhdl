@@ -21,5 +21,8 @@ port(
   easel:           out std_logic;
   edsel:           out edsel_type;
   fsm_read:        out std_logic;
-  fsm_write:       out std_logic);
+  fsm_write:       out std_logic;
+  -- lookahead
+  next_easel:      out std_logic;
+  next_edsel:      out edsel_type);
 end entity control_unit;

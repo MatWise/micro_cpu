@@ -15,13 +15,15 @@ architecture struct of micro_cpu is
   signal pcsel, pdsel, pcena: std_logic;
   signal disassembled_ir: disassembled_ir_type;
   signal cc_out: std_logic;
+  -- lookahead
   signal next_easel: std_logic;
   signal next_edsel: edsel_type;
   signal next_ea, next_ed: word;
 begin
   interface: entity work.bus_interface
   port map(
-    ea => ea,
+    next_ea => next_ea,
+    next_ed => next_ed,
     ed => ed,
     edsel => edsel,
     d_in => d_in,
@@ -44,7 +46,9 @@ begin
     edsel => edsel,
     ix => ix,
     ed => ed,
-    sr => sr);
+    sr => sr,
+    next_edsel => next_edsel,
+    next_ed => next_ed);
 
   memory_reg: entity work.memory_reg
   port map(
@@ -73,7 +77,11 @@ begin
     pcena => pcena,
     ix => ix,
     ed => ed,
-    ea => ea);
+    ea => ea,
+    next_edsel => next_edsel,
+    next_easel => next_easel,
+    next_ed => next_ed,
+    next_ea => next_ea);
 
   disassembler: entity work.disassembler
   port map(
@@ -107,6 +115,8 @@ begin
     easel => easel,
     edsel => edsel,
     fsm_read => fsm_read,
-    fsm_write => fsm_write);
+    fsm_write => fsm_write,
+    next_easel => next_easel,
+    next_edsel => next_edsel);
 end architecture struct;
 

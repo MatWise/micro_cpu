@@ -22,7 +22,7 @@ begin
     end if;
   end process reg;
   
-  logic: process(mx, aasel, ed, aa) is
+  logic: process(all) is
     variable adder: word;
   begin
     adder := std_logic_vector(unsigned(mx) + unsigned(aa));
@@ -33,7 +33,7 @@ begin
     end if;
   end process logic;    
   
-  memory_reg_output: process(ir_int, mx, easel) is
+  memory_reg_output: process(all) is
   begin
     if easel = '1' then
       ea <= aa;
@@ -44,16 +44,12 @@ begin
     ix <= mx;
   end process memory_reg_output;
 
-  lookahead: process(next_easel, aaena, aa_int) is
+  lookahead: process(all) is
   begin
-    if next_easel = '0' then
-      next_ea <= (others => 'Z');
+    if next_easel = '1' then
+      next_ea <= aa when aaena = '0' else aa_int;
     else
-      if aaena = '0' then
-        next_ea <= aa;
-      else
-        next_ea <= aa_int;
-      end if;
+      next_ea <= (others => 'Z');
     end if;
   end process lookahead;
 end architecture behav;

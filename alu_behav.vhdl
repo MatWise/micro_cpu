@@ -4,7 +4,7 @@ architecture behav of alu is
  signal ac, ac_int: word;
  signal sr_int: std_logic_vector(3 downto 0);
 begin
-  logic: process(xsel, cinsel, alumode, ix, ac) is
+  logic: process(all) is
     variable x, y: word;
     variable c_in: std_logic;
     variable c_word: word;
@@ -98,7 +98,7 @@ end process logic;
       end if;
     end process reg;
 
-  ac_output: process(ac, edsel) is
+  ac_output: process(all) is
   begin
     if edsel = reg_ac then
       ed <= ac;
@@ -107,10 +107,12 @@ end process logic;
     end if;
   end process ac_output;
 
-  lookahead: process(next_edsel, acena) is
+  lookahead: process(all) is
   begin
     if next_edsel = reg_ac then
-      
+      next_ed <= ac when acena = '0' else ac_int;
+    else
+      next_ed <= (others => 'Z');
     end if;
   end process lookahead;
   
